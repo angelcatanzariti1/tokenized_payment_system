@@ -79,7 +79,7 @@ contract Tickets{
     //------------------------------ GENERAL MANAGEMENT -------------------------------------------
     //Events
     event enjoy_attraction(string);
-    event new_attraction(string);
+    event new_attraction(string, uint);
     event delete_attraction(string);
 
     //Attractions name => data struct
@@ -97,7 +97,16 @@ contract Tickets{
     //Mapping customer => attraction history
     mapping(address => string[]) AttractionsHistory;
 
-    
+    //------------------------------ ATTRACTIONS MANAGEMENT --------------------------------------
+    //Create new attraction. Resricted to owner
+    function NewAttraction(string memory _attractionName, uint _price) public OnlyOwner(msg.sender){
+        //Creation
+        MappingAttractions[_attractionName] = attraction(_attractionName, _price, true); //default status: true
+        //Storing names
+        Attractions.push(_attractionName);
+        //Emit event
+        emit new_attraction(_attractionName, _price);
+    }
 
 
 }
