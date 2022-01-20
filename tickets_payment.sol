@@ -117,5 +117,10 @@ contract Tickets{
         emit delete_attraction(_attractionName);
     }
 
+    //View attractions
+    function AvailableAttractions() public view returns(string[] memory){
+        return Attractions;
+    }
+
 
 }
