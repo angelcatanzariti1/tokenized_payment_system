@@ -58,7 +58,7 @@ contract Tickets{
         //transfer tokens to customer
         token.transfer(msg.sender, _numTokens);
         //store data
-        Customers[msg.sender].tokens_bought = _numTokens;
+        Customers[msg.sender].tokens_bought += _numTokens;
     }
 
     //Get amount of available tokens
@@ -75,5 +75,29 @@ contract Tickets{
     function MakeTokens(uint _numToken) public OnlyOwner(msg.sender){
         token.increaseTotalSupply(_numToken);
     }
+
+    //------------------------------ GENERAL MANAGEMENT -------------------------------------------
+    //Events
+    event enjoy_attraction(string);
+    event new_attraction(string);
+    event delete_attraction(string);
+
+    //Attractions name => data struct
+    struct attraction{
+        string name_attraction;
+        uint price_attranction;
+        bool status_attraction;
+    }
+
+    mapping(string => attraction) public MappingAttractions;
+
+    //Array to store attractions' names
+    string[] Attractions;
+
+    //Mapping customer => attraction history
+    mapping(address => string[]) AttractionsHistory;
+
+    
+
 
 }
