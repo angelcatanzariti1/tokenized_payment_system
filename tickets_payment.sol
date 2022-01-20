@@ -108,5 +108,13 @@ contract Tickets{
         emit new_attraction(_attractionName, _price);
     }
 
+    //Delete attraction. Resricted to owner
+    function DeleteAttraction(string memory _attractionName) public OnlyOwner(msg.sender){
+        //Set status to false
+        MappingAttractions[_attractionName].status_attraction = false;
+        //Emit event
+        emit delete_attraction(_attractionName);
+    }
+
 
 }
