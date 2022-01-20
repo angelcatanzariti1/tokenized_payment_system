@@ -110,6 +110,7 @@ contract Tickets{
 
     //Delete attraction. Resricted to owner
     function DeleteAttraction(string memory _attractionName) public OnlyOwner(msg.sender){
+        require(MappingAttractions[_attractionName].status_attraction == false, "The attraction is already down or it doesn't exist");
         //Set status to false
         MappingAttractions[_attractionName].status_attraction = false;
         //Emit event
