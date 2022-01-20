@@ -143,5 +143,17 @@ contract Tickets{
         return(AttractionsHistory[msg.sender]);
     }
 
+    //Tokens refund
+    function RefundTokens(uint _numTokens) public payable{
+        //check for positive number
+        require(_numTokens > 0, "Number of tokens must be greater than 0");
+        //check for availability of tokens
+        require(_numTokens <= MyTokens(), "Not enough tokens");
+        //customer gives back tokens
+        token.transfer_custom(msg.sender, address(this), _numTokens);
+        //refund ether
+        msg.sender.transfer(GetTokenPrice(_numTokens));
+    } 
+
 
 }
