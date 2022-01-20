@@ -5,10 +5,12 @@ import "./SafeMath.sol";
 import "./ERC20.sol";
 
 contract Tickets{
+
+    //------------------------------ INITIAL DECLARATIONS ----------------------------------------
     //Token contract instance
     ERC20Basic private token;
 
-    //Declarations
+    //Contract owner address
     address payable public owner;
 
     //Constructor
@@ -25,6 +27,14 @@ contract Tickets{
 
     //Customers registration
     mapping(address => customer) public Customers;
+
+    //------------------------------ TOKENS MANAGEMENT -------------------------------------------
+    //Set token price
+    function TokenPrice(uint _numTokens) internal pure returns(uint){
+        //Convert tokens to eth
+        return _numTokens*(1 ether);
+    }
+
 
 
 }
