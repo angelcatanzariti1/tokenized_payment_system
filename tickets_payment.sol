@@ -30,6 +30,12 @@ contract Tickets{
     //Customers registration
     mapping(address => customer) public Customers;
 
+    //Modifiers
+    modifier OnlyOwner(address _address){
+        require(_address == owner, "Forbidden");
+        _;
+    }
+
     //------------------------------ TOKENS MANAGEMENT -------------------------------------------
     //Get token price
     function GetTokenPrice(uint _numTokens) internal pure returns(uint){
@@ -58,6 +64,16 @@ contract Tickets{
     //Get amount of available tokens
     function balanceOf() public view returns(uint){
         return token.balanceOf(address(this));
+    }
+
+    //Get how many tokens a customer has
+    function MyTokens() public view returns(uint){
+        return token.balanceOf(msg.sender);
+    }
+
+    //Increase total tokens
+    function MakeTokens(uint _numToken) public OnlyOwner(msg.sender){
+        token.increaseTotalSupply(_numToken);
     }
 
 }
