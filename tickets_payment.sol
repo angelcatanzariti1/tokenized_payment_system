@@ -78,7 +78,7 @@ contract Tickets{
 
     //------------------------------ GENERAL MANAGEMENT -------------------------------------------
     //Events
-    event enjoy_attraction(string);
+    event enjoy_attraction(string, uint, address);
     event new_attraction(string, uint);
     event delete_attraction(string);
 
@@ -120,6 +120,22 @@ contract Tickets{
     //View attractions
     function AvailableAttractions() public view returns(string[] memory){
         return Attractions;
+    }
+
+    //Pay for an attraction
+    function UseAttraction(string memory _attractionName) public{
+        //price (in tokens)
+        uint attraction_token_price = MappingAttractions[_attractionName].price_attranction;
+        //check status
+        require(MappingAttractions[_attractionName].status_attraction == true, "Attraction currently not available");
+        //check if customer has enough tokens
+        require(attraction_token_price <= MyTokens(),"You need tu buy more tokens to use this attraction");
+        //transfer, using custom function from ERC20.sol to allow customer to pay for attraction
+        token.transfer_custom(msg.sender, address(this), attraction_token_price);
+        //save attraction use in history
+        AttractionsHistory[msg.sender].push(_attractionName);
+        //emit event
+        emit enjoy_attraction(_attractionName, attraction_token_price, msg.sender);
     }
 
 
