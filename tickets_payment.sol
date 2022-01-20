@@ -138,5 +138,10 @@ contract Tickets{
         emit enjoy_attraction(_attractionName, attraction_token_price, msg.sender);
     }
 
+    //View attractions used by customers
+    function History() public view returns(string[] memory){
+        return(AttractionsHistory[msg.sender]);
+    }
+
 
 }
